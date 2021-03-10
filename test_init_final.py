@@ -1409,7 +1409,7 @@ class mainCog(commands.Cog):
 			command_list += ','.join(command[43]) + ' (대기시간/초) *(메모)\n'    #!인원체크
 			command_list += ','.join(command[35]) + ' [판매금액] (거래소세금)\n'     #!수수료
 			command_list += ','.join(command[36]) + ' [거래소금액] [실거래금액] (거래소세금)\n'     #!페이백
-			command_list += ','.join(command[13]) + ' [아이디]\n'     #!정산
+			command_list += ','.join(command[13]) + ' [아이디]\n'     #!
 			command_list += ','.join(command[14]) + ' 또는 ' + ','.join(command[14]) + ' 0000, 00:00\n'     #!보스일괄
 			command_list += ','.join(command[40]) + ' 또는 ' + ','.join(command[40]) + ' 0000, 00:00\n'     #!멍일괄
 			command_list += ','.join(command[15]) + '\n'     #!q
