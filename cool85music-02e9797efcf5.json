@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "cool85music",
+  "private_key_id": "02e9797efcf51dfe9a23873163cc8939aecca2a1",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQCq3fkJDDfHUXwV\nosLhY3S/R8J0lqeeResFXaTK0Kj6U4iGtAtxU10L1ZV6DIdQa13SUls2+mALehIu\nbfT2KcZWf/zzPDcpFio7IlBjYoj7obCkFRi3Vkk95B+/1j92bVOrfARb+gDW6Uhz\nA5kVbmpvGdu2hrLTAPYlwwEJz+tjfsRx3LDuIkbAoV8vgzh0fO9RRcX+wyArIdxA\n8+P6NeMCUN4g83WgRjjfW1aM2d3U5AyFMf52NEETOmOJDNB3AqxO2NH823PggNtZ\nS8if3qd7g2E1+Z5hDp3OxMX78F04dSWy4QOOWHkZromCfvIvoiONob1ADJUctG9P\npovyovkBAgMBAAECggEAAuQcXFcjv7UELYkQEit//NdRTMPCL/UrOvWDEdgamYyP\n8ph7IxVuUfZMT0oXaFEBgrKts1Q55uTDXXeCY94SjxClLlWlhDy28EJlHLd5sJbv\nkSwefpVbPfFX7f2SfadRMEVks96/ZI4tHaqZUsFXWew5M/pZhno2nbSF2UjFvM4i\nJB5ZBh7MO0Od0blsQaN/lmgvh9MK9IOFiXiY6NRT7A/L8CXqlecHJAFvjqO+CQcw\nJMuCMbv48D9sX6QswcD0gKReFKNpCpHcxUvlok5AwhaMXoyjnjD7TYdJqLEgZoBU\nh8u2bZ7CYgWNOojPQzZqaMazoY2OeAeuNJDcp0YJ8wKBgQDZ4lZVRojxhpR8eZqe\n3tFUkMOadgJE9EIGvqsMHm9Ow8CcbKp60//Zptn7fdKYoWxOhpouYGiJ0v1g+XtO\nKn/6RTq7phUc14AA4BgddtQr3vB54ZAJSl6ty4ZfK8u2dODmBMaTlyDvuBzprIL3\njPCqtNDlMNGFa8ELWLj1i4YwfwKBgQDIwgl6PvcvhAnl6divkYQ04XE/vlAuDyvU\n0WmFfXwUHP0D7ZVzkgFSpyXuJ/83NyHJ0QGd4HMoBVWHzEvYQGKfjTOA3r0oTQlt\nO58c8hatKFLnYlbYBIZmZM59EY9cRokLZ4juRSO29KvhJnx+8rZUnhiN0Q1bNolk\nUH+fuhoWfwKBgBemtAxpra/aFgA1Cw23zi1J0ZHQwYpOoWQuCk80doysPxo7yX2v\nyZQMwpjEHbonu6QChHYITRC48Hw4WKQxhNbb8PYxnxUUZ3aw3K1GGt3wQ1ZXn9UC\nV6ix8RIfpOtXYJpXZl7bBt4+tBTBfy30BKPjINHgLL445imfJeSxko1tAoGBALNv\nOqlYvfZqPa6RZGsH1PKuzVn78A464SJGSdpWXiBcCIkKQRoa1bPaUbybYzEmxbxs\nYtWJV2Pd4KSPpPqUEZIp0m7MpqTutg47y+tDNaFu+Sp2asiIwteiIi0HFOuU38ih\nsXHFujY8WaPTklKk/PKEm82lnBp6lDJlAKzy2X5hAoGBAIPBmmx4dPuD4s8iCoRC\nvoISojy3oL4nDJlbZi9EWER1FXWHWz+3Ehpe1fz+HXd+naDq4S2Fay8rlUuUnsUr\nLOztDvdTTx3iCjo3ihPHGU5RX2+gzMoczDYT7JwRZUzEXKszft08WW1yXXuljhTH\nLJnXIko1RIkralFZTTv0xTs2\n-----END PRIVATE KEY-----\n",
+  "client_email": "cool85music@cool85music.iam.gserviceaccount.com",
+  "client_id": "116219169655336389912",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/cool85music%40cool85music.iam.gserviceaccount.com"
+}
