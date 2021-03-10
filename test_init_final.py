@@ -1406,9 +1406,10 @@ class mainCog(commands.Cog):
 			command_list += ','.join(command[12]) + ' [뽑을인원수] [아이디1] [아이디2]...\n'     #!사다리
 			command_list += ','.join(command[27]) + ' [아이디1] [아이디2]...(최대 12명)\n'     #!경주
 			command_list += ','.join(command[41]) + ' [추첨인원] (대기시간/초) *(메모)\n'    #!럭키박스
+			command_list += ','.join(command[43]) + ' (대기시간/초) *(메모)\n'    #!인원체크
 			command_list += ','.join(command[35]) + ' [판매금액] (거래소세금)\n'     #!수수료
 			command_list += ','.join(command[36]) + ' [거래소금액] [실거래금액] (거래소세금)\n'     #!페이백
-			command_list += ','.join(command[13]) + ' [아이디]\n'     #!
+			command_list += ','.join(command[13]) + ' [아이디]\n'     #!정산
 			command_list += ','.join(command[14]) + ' 또는 ' + ','.join(command[14]) + ' 0000, 00:00\n'     #!보스일괄
 			command_list += ','.join(command[40]) + ' 또는 ' + ','.join(command[40]) + ' 0000, 00:00\n'     #!멍일괄
 			command_list += ','.join(command[15]) + '\n'     #!q
@@ -3542,6 +3543,117 @@ class mainCog(commands.Cog):
 		contents = repo.get_contents("test_setting.ini")
 		repo.update_file(contents.path, "test_setting", result_voice_use, contents.sha)
 		return await ctx.send(f"```보이스를 사용하지 않도록 설정하였습니다.!```")
+								  
+	################ 인원체크 ################ 
+	@commands.command(name=command[43][0], aliases=command[43][1:])
+	async def command_randombox_gameeee(self, ctx : commands.Context, *, args : str = None):
+		if basicSetting[18] != "" and ctx.message.channel.id == basicSetting[7]:
+			return
+
+		if ctx.message.channel.id != basicSetting[7] and ctx.message.channel.id != basicSetting[18]:
+			return
+
+		if not args:
+			return await ctx.send(f'```명령어 (대기시간/초) *(메모) 형태로 입력해주시기 바랍나다.```')
+
+		memo_data : str = ""
+		waiting_time : int = 30
+
+		if args.find("*") == -1:
+			input_game_data = args.split()
+		else:
+			input_game_data = args[:args.find("*")-1].split()
+			memo_data = args[args.find("*")+1:]
+
+		if len(input_game_data) >= 1:
+			waiting_time : int = 30
+			try:
+				waiting_time = int(input_game_data[0])  # 대기시간
+				if waiting_time <= 0 :
+					return await ctx.send(f'```대기시간이 0보다 작거나 같습니다. 재입력 해주세요```')
+			except ValueError:
+				return await ctx.send(f'```대기시간(초)는 숫자로 입력 바랍니다\nex)!인원체크 1 60```')
+
+		reaction_emoji : list = ["1⃣", "2⃣", "3⃣", "❌"]
+
+		embed = discord.Embed(title  = f"📦 인원체크! 중 입니다! (잔여시간 : {waiting_time}초)", description = f":hearts: 참여인증 방법 :hearts:\n 지휘에 따라 하단부에 1⃣ 번을 1회만 클릭 해주세요!\n 지휘에 따라 하단부에 2⃣ 번을 1회만 클릭 해주세요!\n 지휘에 따라 하단부에 3⃣ 번을 1회만 클릭 해주세요!\n \n 1⃣ 번을 2회 클릭한 경우 참여로 인증되지 않습니다!\n 2⃣ 번을 2회 클릭한 경우 참여로 인증되지 않습니다!\n 3⃣ 번을 2회 클릭한 경우 참여로 인증되지 않습니다!\n ❌ 를 누를 경우 참여로 인증되지 않습니다! ", timestamp =datetime.datetime.now(datetime.timezone(datetime.timedelta(hours=int(basicSetting[0])))),
+			color=0x00ff00
+			)
+		if memo_data != "":
+			embed.add_field(name = "📜 메모", value =  f"```{memo_data}```", inline=False)
+
+		game_message : discord.message.Message = await ctx.send(embed = embed)
+
+		for emoji in reaction_emoji:
+			await game_message.add_reaction(emoji)
+		
+		cache_msg = await ctx.fetch_message(game_message.id)
+
+		for i in range(waiting_time):
+			embed.title = f"📦 인원체크! 중 입니다! (잔여시간 : {waiting_time - i}초)"			
+			await game_message.edit(embed=embed)
+			cache_msg = await ctx.fetch_message(game_message.id)
+			if cache_msg.reactions[3].count >= 2:
+				tmp_users = await cache_msg.reactions[3].users().flatten()
+				for user in tmp_users:
+					if user.id == ctx.author.id:
+						embed.title = f"😫 인원체크! 취소! 😱"
+						embed.description = ""
+						await game_message.edit(embed=embed)	
+						return await ctx.send(f"```추첨이 취소되었습니다.!```")
+			await asyncio.sleep(1)
+
+		if (cache_msg.reactions[0].count + cache_msg.reactions[1].count + cache_msg.reactions[2].count) == 3:
+			embed.title = f"😫 인원체크! 실패! 😱"
+			embed.description = ""
+			await game_message.edit(embed=embed)
+			return await ctx.send(f"```참여자가 없어 게임이 취소되었습니다.!```")
+
+	####### 1번으로 체크한 사람들 #####
+		participant_users_by_first = await cache_msg.reactions[0].users().flatten()
+
+		del_index : int = 0
+		for i, user in enumerate(participant_users_by_first):
+			if self.bot.user.id == user.id:
+				del_index = i
+		del participant_users_by_first[del_index]
+
+		user_name_list_by_first : list = []
+		for user in participant_users_by_first:
+			user_name_list_by_first.append(user.mention)
+
+	####### 2번으로 체크한 사람들 #####
+		participant_users_by_second = await cache_msg.reactions[1].users().flatten()
+
+		del_index : int = 0
+		for i, user in enumerate(participant_users_by_second):
+			if self.bot.user.id == user.id:
+				del_index = i
+		del participant_users_by_second[del_index]
+
+		user_name_list_by_second : list = []
+		for user in participant_users_by_second:
+			user_name_list_by_second.append(user.mention)
+
+	####### 3번으로 체크한 사람들 #####
+		participant_users_by_stheyoungest = await cache_msg.reactions[2].users().flatten()
+
+		del_index : int = 0
+		for i, user in enumerate(participant_users_by_stheyoungest):
+			if self.bot.user.id == user.id:
+				del_index = i
+		del participant_users_by_stheyoungest[del_index]
+
+		user_name_list_by_stheyoungest : list = []
+		for user in participant_users_by_stheyoungest:
+			user_name_list_by_stheyoungest.append(user.mention)
+
+		embed.title = f"🎉 인원체크! 결과발표! 🎉"
+		embed.description = ""
+		embed.add_field(name = f" 1⃣ 클릭 참가자 ({len(user_name_list_by_first)}명)", value =  f"{', '.join(user_name_list_by_first)}", inline=False)
+		embed.add_field(name = f" 2⃣ 클릭 참가자 ({len(user_name_list_by_second)}명)", value =  f"{', '.join(user_name_list_by_second)}", inline=False)
+		embed.add_field(name = f" 3⃣ 클릭 참가자 ({len(user_name_list_by_stheyoungest)}명)", value =  f"{', '.join(user_name_list_by_stheyoungest)}", inline=False)
+		return await game_message.edit(embed=embed)
 
 	################ 럭키박스 ################ 
 	@commands.command(name=command[41][0], aliases=command[41][1:])
@@ -3642,12 +3754,12 @@ class mainCog(commands.Cog):
 
 		lose_user = list(set(user_name_list)-set(result_users))
 
-		embed.title = f"🎉 럭키박스! 결과발표! 🎉"
+		embed.title = f"🎉 ! 결과발표! 🎉"
 		embed.description = ""
 		embed.add_field(name = f"👥 참가자 ({len(user_name_list)}명)", value =  f"{', '.join(user_name_list)}", inline=False)
 		embed.add_field(name = f"😍 당첨 ({num_cong}명)", value =  f"{', '.join(result_users)}")
 		if len(lose_user) != 0:
-			embed.add_field(name = f"😭 낙첨 ({len(lose_user)}명)", value =  f"{', '.join(lose_user)}")
+			embed.add_field(name = f"😭 낙점 ({len(lose_user)}명)", value =  f"{', '.join(lose_user)}")
 		return await game_message.edit(embed=embed)
 
 	################ ?????????????? ################ 
