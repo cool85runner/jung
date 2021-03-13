@@ -1989,7 +1989,7 @@ class mainCog(commands.Cog):
 				result = wks.acell(basicSetting[16]).value
 
 				embed = discord.Embed(
-						description= '```' + SearchID + ' 총 인원 >>>>> ' + result + ' <<<<< 명 입니다.```',
+						description= '```' + SearchID + ' >>>>> 총 인원 ' + result + ' 명 <<<<<  입니다.```',
 						color=0xff00ff
 						)
 				await ctx.send(embed=embed, tts=False)
